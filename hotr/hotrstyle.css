@@ -1,0 +1,830 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f2f4f7;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 1rem;
+  background: rgba(36, 36, 36, 0.075);
+  backdrop-filter: blur(3px);
+}
+
+.nav-logo img {
+  height: 40px;
+}
+
+/* Center Menu */
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #141414;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(220, 250, 214, 0.973);
+}
+
+.nav-menu li a:hover {
+  color: #04be0d;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.973);
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+.nav-menu li a:focus,
+.mobile-menu li a:focus {
+  outline: 2px dashed #04be0d;
+  outline-offset: 4px;
+}
+
+/* Toggle (hamburger icon) */
+.nav-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #000000;
+}
+
+/* Mobile Fullscreen Menu */
+.mobile-menu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: 95vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.952);
+  display: none;
+  flex-direction: column;
+  align-items: left;
+  z-index: 9999;
+  transition: all 0.3s ease-in-out;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.mobile-menu.show {
+  display: flex;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  text-align: center;
+}
+
+.mobile-menu li {
+  margin: 1.5rem 0;
+}
+
+.mobile-menu li a {
+  font-size: 2rem;
+  color: rgb(248, 248, 248);
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
+
+.hotr-full-menu {
+  display: flex;
+}
+
+.hotr-full-menu a {
+  color: #333;
+  text-decoration: none;
+}
+
+.hotr-full-menu a:hover {
+  color: #03c703;
+}
+
+.left-menu {
+  background-color: #f2f4f7;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.right-menu {
+  display: none;
+}
+
+.menu-blocks {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-blocks a:hover {
+  cursor: pointer;
+}
+
+.menu-block {
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 45%;
+  margin-right: 10px;
+}
+
+.menu-blocks i {
+  margin-right: 5px;
+}
+
+.yt-home-Iframe {
+  width: 100%;
+  height: 300px;
+}
+
+.right-menu {
+  width: 35%;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.desktop-banner {
+  min-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0.3em 0.5em;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.carousel-btn.left {
+  left: 10px;
+}
+
+.carousel-btn.right {
+  right: 10px;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Slider Section */
+.slider {
+  position: relative;
+  width: 100%;
+  height: 97vh;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  background-attachment: scroll;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.slide-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  text-align: center;
+}
+
+#specialButton {
+  background-color: #0407c5;
+  padding: 15px 45px;
+  color: white;
+  border: 1px solid #0407c5;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Slider Nav Arrows */
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 5;
+  padding: 0 1rem;
+}
+
+.slider-nav button {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+.slider-nav button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.hotr-specials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -150px;
+  margin-bottom: 135px;
+  z-index: 99999;
+}
+
+/* Give Overlay */
+
+.give-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.give-overlay.active {
+  display: flex;
+}
+
+.give-content {
+  background: white;
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  font-family: "Poppins", sans-serif;
+}
+
+.close-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+}
+
+.bank-details {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+.bank-row {
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f7f7f7;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.copy-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+}
+
+.copy-text i {
+  font-size: 1rem;
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.copy-text:hover i {
+  color: #000;
+}
+
+.copy-note {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Sections */
+section {
+  padding: 2rem 1rem;
+}
+
+.section2,
+.section3,
+.section4 {
+  background: #f2f4f7;
+}
+
+.section3 {
+  background-color: #1c292d;
+  color: #ffffff;
+}
+
+.section2 h2,
+.section3 h2,
+.section4 h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.section2 h3,
+.section3 h3,
+.section4 h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background-color: #0407c5;
+  padding: 15px 45px;
+  color: white;
+  margin-top: 45px;
+  margin-bottom: 10px;
+  border: 1px solid #0407c5;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: rgb(3, 226, 22);
+  color: white;
+  text-decoration: none;
+  border: 1px solid rgb(3, 226, 22);
+}
+
+.btn-primary a {
+  color: white;
+  text-decoration: none;
+}
+
+.welcome-pastor-section {
+  padding: 5px;
+  text-align: center;
+}
+
+.welcome-pastor-section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.welcome-to-hotr {
+  margin-bottom: 25px;
+}
+
+.welcome-text {
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.pastor-card {
+  background: #fff;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.pastor-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
+
+.pastor-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.pastor-info h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-time {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.pastor-image-container {
+  width: 100%;
+  height: auto;
+}
+
+.pastor-image-container img:hover {
+  animation: grow 0.6s ease-out forwards;
+}
+
+.pastor-quote-image {
+  width: 100%;
+  height: 400px;
+  display: block;
+}
+
+.pastor-caption {
+  padding: 0.9rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+  color: #444;
+  padding-top: 0;
+}
+
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1877f2;
+  color: white;
+  font-size: 0.6rem;
+  font-weight: bold;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-left: 2px;
+}
+
+/* Events Section */
+.events-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.events-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.event-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 250px;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  scroll-snap-align: center;
+  transition: all 0.4s ease;
+  background: #fff;
+  cursor: pointer;
+}
+
+.event-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.4s ease;
+}
+
+.event-name {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  font-family: "Poppins", sans-serif;
+}
+
+/* <<< NEW HOVER BEHAVIOR >>> */
+
+/* When hovering inside the container */
+.events-container:hover .event-card {
+  transform: scale(1); /* reset all */
+  opacity: 1;
+}
+
+/* Only shrink non-hovered cards */
+.events-container:hover .event-card:not(:hover) {
+  transform: scale(0.9);
+  opacity: 0.7;
+}
+
+/* Hovered card grows */
+.event-card:hover {
+  transform: scale(1.1);
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Extra shine when hovered */
+.event-card:hover img {
+  filter: brightness(1.1);
+}
+
+/* Hide scrollbar */
+.events-container::-webkit-scrollbar {
+  display: none;
+}
+.events-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* SCROLL BUTTONS */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 1.3rem;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, background 0.3s ease, transform 0.2s ease;
+}
+
+.scroll-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.scroll-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.scroll-btn.left {
+  left: 10px;
+}
+
+.scroll-btn.right {
+  right: 10px;
+}
+
+.events-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.scroll-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.scroll-btn.left {
+  left: 10px;
+}
+
+.scroll-btn.right {
+  right: 10px;
+}
+
+/* Grow effect */
+@keyframes grow {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+/* Fading styles */
+.fade-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Responsive Breakpoint === */
+@media (max-width: 480px) {
+  .events-heading {
+    font-size: 1.5rem;
+  }
+  .event-card {
+    width: 160px;
+    height: 200px;
+  }
+  .event-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+  .event-card {
+    width: 200px;
+    height: 250px;
+  }
+}
+
+@media (min-width: 769px) {
+  .navbar {
+    backdrop-filter: blur(6px);
+  }
+  .nav-toggle {
+    display: block;
+  }
+
+  .mobile-menu {
+    font-size: 16px;
+  }
+
+  .left-menu {
+    width: 65%;
+  }
+
+  .right-menu {
+    display: block;
+    width: 35%;
+    padding: 10px;
+  }
+
+  .yt-home-Iframe {
+    width: 100%;
+    height: 450px;
+  }
+
+  .desktop-banner {
+    width: 100%;
+  }
+
+  .desktop-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .slide {
+    background-position: center 30%;
+  }
+
+  .slider-text h1 {
+    font-size: 2rem;
+  }
+
+  .slider-nav button {
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .glow-cross {
+    bottom: 40px;
+    right: 40px;
+    width: 20px;
+    height: 80px;
+  }
+
+  .glow-cross::before {
+    top: 35%;
+    left: -30px;
+    width: 80px;
+    height: 20px;
+  }
+
+  section {
+    padding: 4rem 2rem;
+  }
+
+  .section2 h2,
+  .section3 h2,
+  .section4 h2 {
+    font-size: 1.5rem;
+  }
+
+  .section3 {
+    padding: 6rem 12rem;
+  }
+
+  .welcome-pastor-section {
+    padding: 0.3rem 1rem;
+  }
+
+  .welcome-pastor-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .welcome-text {
+    font-size: 1rem;
+  }
+
+  .pastor-card {
+    margin: 0 1rem;
+  }
+
+  .pastor-info h3 {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .scroll-btn {
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+  }
+}
