@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>House On The Rock Asaba</title>
+  <link rel="icon" type="image/png" href="./hotrimages/hotr-ico.png">
   <link rel="stylesheet" href="hotrstyle.css">
   <link rel="stylesheet" href="hotrfooterstyle.css">
   <link
@@ -24,14 +25,25 @@
       <li><a href="/rock-news">News</a></li>
       <li><a href="#"><i class="fa-solid fa-circle-dollar-to-slot"></i></a></li>
     </ul>
-    <div class="nav-toggle" id="navToggle">
+    <div class="nav-toggle" id="navToggle" role="button" tabindex="0" aria-label="Toggle menu">
       <i class="fas fa-bars"></i>
     </div>
   </nav>
 
   <div class="mobile-menu" id="mobileMenu">
     <div class="hotr-full-menu">
+
       <div class="left-menu">
+        <div class="social-links">
+          <a href="https://www.facebook.com/HouseOnTheRockAsaba" target="_blank" aria-label="Facebook"><i
+              class="fab fa-facebook"></i></a>
+          <a href="https://www.instagram.com/hotrasaba/" target="_blank" aria-label="Instagram"><i
+              class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/channel/UCrl6R7dpS9HBaMX8gQwD1EQ" target="_blank" aria-label="YouTube"><i
+              class="fab fa-youtube"></i></a>
+          <a href="https://twitter.com/hotrasaba" target="_blank" aria-label="twitter"><i
+              class="fab fa-twitter"></i></a>
+        </div>
         <div class="menu-blocks">
           <div class="menu-block" id="block1"><i class="fa-solid fa-house-user"></i><a href="/cith">CITH Centers</a>
           </div>
@@ -53,6 +65,7 @@
           <div class="menu-block" id="block3"><i class="fa-solid fa-circle-chevron-down"></i><a
               href="https://linktr.ee/houseontherockasaba" target="_blank">More</a></div>
         </div>
+        <div id="staticVerse" class="static-verse"></div>
         <iframe class="yt-home-Iframe" src="https://www.youtube.com/embed/WUw2w36KRIA?si=vQESUqOFwWemqq-L"
           title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -209,6 +222,26 @@
     <button class="btn-primary"><a href="http://bit.ly/hotrform" target="_blank" rel="noopener noreferrer">Join
         Us</a></button>
   </section>
+  <div id="verseOverlay" class="verse-overlay">
+    <div class="verse-box">
+      <button id="closeVerse" class="close-btn" aria-label="Close">&times;</button>
+      <h2>HOTR Verse of the Day</h2>
+      <p id="verseText">Loading verse...</p>
+      <small id="verseRef"></small>
+      <hr />
+      <p>Follow us and be inspired daily:</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/HouseOnTheRockAsaba" target="_blank" aria-label="Facebook"><i
+            class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/hotrasaba/" target="_blank" aria-label="Instagram"><i
+            class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/channel/UCrl6R7dpS9HBaMX8gQwD1EQ" target="_blank" aria-label="YouTube"><i
+            class="fab fa-youtube"></i></a>
+        <a href="https://twitter.com/hotrasaba" target="_blank" aria-label="twitter"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+
   <script src="./hotrscript.js"></script>
 </body>
 <footer class="footer fade-section">
@@ -261,7 +294,7 @@
   <div class="footer-bottom">
     <p>&copy; <span id="current-year"></span> House on the Rock Church, Asaba. All Rights Reserved.</p>
     <p>Created by the Rock News Team • Opensource church project • Contribute on <a
-        href="https://github.com/Iamtsquare07/" target="_blank">Github</a></p>
+        href="https://github.com/Iamtsquare07/hotrasaba" target="_blank">Github</a></p>
   </div>
 </footer>
 

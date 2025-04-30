@@ -16,6 +16,10 @@ navToggle.addEventListener("keydown", (e) => {
   }
 });
 
+navToggle.addEventListener("touchstart", () => {
+  navToggle.click(); // Simulates click on touch
+});
+
 // Sticky mobile menu on scroll
 window.addEventListener("scroll", () => {
   const navbar = document.querySelector(".navbar");
@@ -69,17 +73,17 @@ let loadedIndexes = new Set();
 const priorityImagesData = [
   {
     image: "slider-images/PIC_9257.webp",
-    text: "Watch Our Special Service",
+    btnText: "Watch Our Special Service",
     link: "/featured-service",
   },
   {
     image: "slider-images/DL4A5463.webp",
-    text: "Explore Our Latest Collection",
+    btnText: "Explore Our Latest Collection",
     link: "/collection",
   },
   {
     image: "slider-images/089A9122.webp",
-    text: "Learn More About Us",
+    btnText: "Learn More About Us",
     link: "/about-us",
   },
 ];
@@ -155,24 +159,33 @@ function setupSlider(images) {
 
     const activeSlide = allSlides[index];
     const isPriority = activeSlide?.getAttribute("data-priority") === "true";
-
     // Debugging log to see if the active slide has the correct data-priority attribute
     console.log(`Slide ${index} is priority: ${isPriority}`);
-
-    // Logic to show or hide the button based on priority slide
     if (specialButton) {
       if (isPriority) {
-        const priorityData = priorityImagesData[index];
-        specialButton.textContent = priorityData.text;
-        specialButton.onclick = () =>
-          (window.location.href = priorityData.link);
-        specialButton.style.display = "block";
+        // Extract the actual image URL from the inline style
+        const bgImage = activeSlide.style.backgroundImage;
+        const imageUrl = bgImage.slice(5, -2); // remove url("...")
+
+        // Match to the correct data object
+        const priorityData = priorityImagesData.find(
+          (data) => data.image === imageUrl
+        );
+
+        if (priorityData) {
+          specialButton.textContent = priorityData.btnText;
+          specialButton.onclick = () =>
+            (window.location.href = priorityData.link);
+          specialButton.style.display = "block";
+        } else {
+          // fallback if image is marked as priority but no data found
+          specialButton.style.display = "none";
+        }
       } else {
         specialButton.style.display = "none";
       }
     }
 
-    // Load the next slide
     injectSlide((index + 1) % weightedImages.length);
   };
 
@@ -254,11 +267,11 @@ giveOverlay?.addEventListener("click", (e) => {
 // Copy to clipboard
 document.querySelectorAll(".copy-text").forEach((copyEl) => {
   copyEl.addEventListener("click", () => {
-    const text = copyEl.getAttribute("data-copy");
-    navigator.clipboard.writeText(text).then(() => {
-      copyEl.innerHTML = `${text} <i class="fa-solid fa-check"></i>`;
+    const cText = copyEl.getAttribute("data-copy");
+    navigator.clipboard.writeText(cText).then(() => {
+      copyEl.innerHTML = `${cText} <i class="fa-solid fa-check"></i>`;
       setTimeout(() => {
-        copyEl.innerHTML = `${text} <i class="fa-regular fa-copy"></i>`;
+        copyEl.innerHTML = `${cText} <i class="fa-regular fa-copy"></i>`;
       }, 2000);
     });
   });
@@ -382,4 +395,105 @@ document.addEventListener("DOMContentLoaded", () => {
   if (yearSpan) {
     yearSpan.textContent = year;
   }
+
+  // Verse of the Day logic
+  const verseKey = "hotr_verse_seen";
+  const verseLimit = 3;
+
+  // Get local verse data from localStorage
+  function getVerseData() {
+    return JSON.parse(localStorage.getItem(verseKey)) || {};
+  }
+
+  // Check if the verse overlay can be shown
+  function canShowVerseToday() {
+    const data = getVerseData();
+    const today = new Date().toISOString().slice(0, 10);
+    return data.date !== today || (data.count || 0) < verseLimit;
+  }
+
+  // Update the display count in localStorage
+  function updateVerseData() {
+    const now = new Date();
+    const today = now.toISOString().slice(0, 10);
+    const data = getVerseData();
+
+    if (data.date !== today) {
+      data.date = today;
+      data.count = 1;
+    } else {
+      data.count = (data.count || 0) + 1;
+    }
+
+    localStorage.setItem(verseKey, JSON.stringify(data));
+  }
+
+  // Fetch and display verse in overlay
+  function fetchAndShowVerse(static) {
+    fetch("https://beta.ourmanna.com/api/v1/get/?format=json")
+      .then((res) => res.json())
+      .then((data) => {
+        const verseText = data.verse.details.text;
+        const reference = data.verse.details.reference;
+
+        const overlay = document.getElementById("verseOverlay");
+        const verseContainer = document.getElementById("verseText");
+        const staticVerseContainer = document.getElementById("staticVerse");
+
+        if (static) {
+          if (staticVerseContainer) {
+            staticVerseContainer.innerHTML = `
+            <p>“${verseText}” <strong>${reference}</strong></p>`;
+          }
+          return;
+        }
+        verseContainer.innerHTML = `
+        <p>“${verseText}”</p>
+        <p><strong>${reference}</strong></p>
+      `;
+
+        overlay.classList.add("active");
+        updateVerseData();
+      })
+      .catch((err) => console.error("Verse fetch failed:", err));
+  }
+
+  // Triggers for mobile (30s) and desktop (exit intent)
+  function setupVerseTriggers() {
+    const isMobile = window.innerWidth <= 768;
+
+    if (!canShowVerseToday()) return;
+
+    if (isMobile) {
+      setTimeout(() => {
+        if (canShowVerseToday()) fetchAndShowVerse(false);
+      }, 30000);
+    } else {
+      const handleExitIntent = (e) => {
+        // Detect fast upward mouse movement near top of the screen
+        if (e.clientY < 30 && canShowVerseToday()) {
+          fetchAndShowVerse(false);
+          document.removeEventListener("mousemove", handleExitIntent);
+        }
+      };
+
+      document.addEventListener("mousemove", handleExitIntent);
+    }
+  }
+
+  // Close overlay on click
+  document.getElementById("closeVerse")?.addEventListener("click", () => {
+    document.getElementById("verseOverlay").classList.remove("active");
+  });
+
+  // Dismiss overlay if clicked outside content
+  document.getElementById("verseOverlay")?.addEventListener("click", (e) => {
+    if (e.target.id === "verseOverlay") {
+      document.getElementById("verseOverlay").classList.remove("active");
+    }
+  });
+
+  // Start on page load
+  setupVerseTriggers();
+  fetchAndShowVerse(true); // Static verse for the first load
 });
