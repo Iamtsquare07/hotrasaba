@@ -775,6 +775,36 @@ section {
   to { transform: scale(1); opacity: 1; }
 }
 
+/* Scroll to top */
+#backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #0407c5;
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px 17px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+}
+
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+#backToTop:hover {
+  background-color: #0407c5bd;
+}
+
 
 /* === Responsive Breakpoint === */
 @media (max-width: 480px) {
@@ -906,5 +936,9 @@ section {
   .scroll-btn {
     font-size: 2rem;
     padding: 0.5rem 1rem;
+  }
+
+  #backToTop {
+    padding: 12px 19px;
   }
 }

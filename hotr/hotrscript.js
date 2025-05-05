@@ -16,10 +16,6 @@ navToggle.addEventListener("keydown", (e) => {
   }
 });
 
-navToggle.addEventListener("touchstart", () => {
-  navToggle.click(); // Simulates click on touch
-});
-
 // Sticky mobile menu on scroll
 window.addEventListener("scroll", () => {
   const navbar = document.querySelector(".navbar");
@@ -29,11 +25,11 @@ window.addEventListener("scroll", () => {
 });
 
 // --- SLIDER ---
-
 const sliderContainer = document.querySelector(".slider");
+const isDevelopment = location.hostname === "localhost" || location.hostname === "127.0.0.1";
 
 // Fallback images
-const fallbackImages = [
+let fallbackImages = [
   "slider-images/PIC_9608.webp",
   "slider-images/PIC_9613.webp",
   "slider-images/DL4A5463.webp",
@@ -52,25 +48,13 @@ const fallbackImages = [
   "slider-images/PIC_9473.webp",
 ];
 
-// Priority images (Shown first)
-// These images will be shown first and will be loaded with higher priority
-const priorityImages = [
+let priorityImages = [
   "slider-images/PIC_9257.webp",
   "slider-images/DL4A5463.webp",
   "slider-images/089A9122.webp",
 ];
 
-// A weighted images array so priority ones appear more often
-const weightedImages = [
-  ...fallbackImages,
-  ...priorityImages,
-  ...priorityImages,
-];
-
-let loadedIndexes = new Set();
-
-// Text and Link Data for Priority Images
-const priorityImagesData = [
+let priorityImagesData = [
   {
     image: "slider-images/PIC_9257.webp",
     btnText: "Watch Our Special Service",
@@ -87,6 +71,61 @@ const priorityImagesData = [
     link: "/about-us",
   },
 ];
+
+// Weighted images
+let weightedImages = [
+  ...fallbackImages,
+  ...priorityImages,
+  ...priorityImages,
+];
+
+// Fetch WordPress images ONLY in production
+if (!isDevelopment) {
+  fetch("https://hotrasaba.com/wp-json/wp/v2/media?per_page=100")
+    .then(res => res.json())
+    .then(data => {
+      const images = data
+        .filter(item =>
+          item.media_type === "image" &&
+          item.title?.rendered?.toLowerCase().includes("slider")
+        )
+        .map(item => item.source_url);
+
+      const filtered = images.filter(url =>
+        /slider[123]\.(jpg|jpeg|png|webp)$/i.test(url)
+      );
+
+      if (filtered.length >= 3) {
+        // Replace fallbacks with fetched data
+        fallbackImages = images;
+        priorityImages = filtered.slice(0, 3);
+        priorityImagesData = priorityImages.map((url, idx) => ({
+          image: url,
+          btnText: [
+            "Watch Our Special Service",
+            "Explore Our Latest Collection",
+            "Learn More About Us",
+          ][idx],
+          link: [
+            "/featured-service",
+            "/collection",
+            "/about-us",
+          ][idx],
+        }));
+
+        weightedImages = [...fallbackImages, ...priorityImages, ...priorityImages];
+
+        // Recreate initial slides now that images are ready
+        createInitialSlides(weightedImages);
+      }
+    })
+    .catch(err => {
+      console.warn("WordPress fetch failed. Using fallback images.", err);
+    });
+}
+
+
+let loadedIndexes = new Set();
 
 // Initial slides
 function createInitialSlides(images) {
@@ -371,6 +410,20 @@ eventsContainer?.addEventListener("scroll", debounce(updateArrowsVisibility));
 window.addEventListener("resize", updateArrowsVisibility);
 window.addEventListener("load", updateArrowsVisibility);
 
+// Back to top button
+const backToTop = document.getElementById("backToTop");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    backToTop.classList.add("show");
+  } else {
+    backToTop.classList.remove("show");
+  }
+});
+
+backToTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 // Fading in elements on scroll
 document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver(
